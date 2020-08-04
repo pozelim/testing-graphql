@@ -1,0 +1,37 @@
+{
+  "name": "testing-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "npm run dev",
+    "server": "node ./dist-server/index.js",
+    "transpile": "babel ./src --out-dir dist-server --source-maps",
+    "clean": "rimraf dist-server",
+    "build": "npm-run-all clean transpile",
+    "dev": "NODE_ENV=development npm-run-all build server"
+  },
+  "keywords": [],
+  "author": "Pedro Ozelim <pedrohozelim@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "graphql-playground-middleware-express": "^1.7.18",
+    "mongodb": "^3.5.9",
+    "mongodb-memory-server": "^6.6.1",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "supertest": "^4.0.2"
+  }
+}
