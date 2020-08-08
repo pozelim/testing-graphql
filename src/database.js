@@ -1,30 +1,25 @@
 /* src/database.js */
 
-import { MongoMemoryServer } from "mongodb-memory-server";
-import { MongoClient } from "mongodb";
 import { Users } from "./data";
-
-let database = null;
-
-const mongo = new MongoMemoryServer();
+import low from "lowdb"
+import FileSync from "lowdb/adapters/FileSync"
 
 async function startDatabase() {
-  const mongoDBURL = await mongo.getConnectionString();
-  const connection = await MongoClient.connect(mongoDBURL, {
-    useNewUrlParser: true,
-  });
+  const adapter = new FileSync(".data/db.json");
+  const db = low(adapter);
 
-  //Seed Database
-  if (!database) {
-    database = connection.db();
-    await database.collection("users").insertMany(Users);
-  }
+  // Set some defaults (required if your JSON file is empty)
+  db.defaults({ users: [] })
+    .write();
 
-  return database;
+  // Add users
+  db.set("users", Users)
+    .write();
+
+  return db;
 }
 
 async function stopDatabase() {
-  await mongo.stop();
 }
 
 export {
